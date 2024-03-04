@@ -1,0 +1,143 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Xtra Blog</title>
+	<link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css'%}"> <!-- https://fontawesome.com/ -->
+	<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet"> <!-- https://fonts.google.com/ -->
+    <link href="{% static 'css/bootstrap.min.css'%}" rel="stylesheet">
+    <link href="{% static 'css/templatemo-xtra-blog.css'%}" rel="stylesheet">
+<!--
+    
+TemplateMo 553 Xtra Blog
+
+https://templatemo.com/tm-553-xtra-blog
+
+-->
+</head>
+<body>
+	<header class="tm-header" id="tm-header">
+        <div class="tm-header-wrapper">
+            <button class="navbar-toggler" type="button" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="tm-site-header">
+                <div class="mb-3 mx-auto tm-site-logo"><i class="fas fa-times fa-2x"></i></div>            
+                <h1 class="text-center">Xtra Blog</h1>
+            </div>
+            <nav class="tm-nav" id="tm-nav">            
+                <ul>
+                    <li class="tm-nav-item"><a href="{% url 'index' %}" class="tm-nav-link">
+                        <i class="fas fa-home"></i>
+                        Blog Home
+                    </a></li>
+                    <li class="tm-nav-item"><a href="{% url 'announce' %}" class="tm-nav-link">
+                        <i class="fa fa-bullhorn" aria-hidden="true"></i>
+                        My Announce
+                    </a></li>
+                    <li class="tm-nav-item"><a href="{% url 'createannounce' %}" class="tm-nav-link">
+                        <i class="fas fa-pen"></i>
+                        Create Announce
+                    </a></li>
+                    <li class="tm-nav-item"><a href="{% url 'changed_password' %}" class="tm-nav-link">
+                        <i class="fa fa-unlock-alt" aria-hidden="true"></i>
+                        Changed Password
+                    </a></li>
+                    <li class="tm-nav-item"><a href="{% url 'logout' %}" class="tm-nav-link">
+                        <i class="fa fa-times-circle" aria-hidden="true"></i>
+                        Logout
+                    </a></li>
+                </ul>
+            </nav>
+            <div class="tm-mb-65">
+                <a rel="nofollow" href="https://fb.com/templatemo" class="tm-social-link">
+                    <i class="fab fa-facebook tm-social-icon"></i>
+                </a>
+                <a href="https://twitter.com" class="tm-social-link">
+                    <i class="fab fa-twitter tm-social-icon"></i>
+                </a>
+                <a href="https://instagram.com" class="tm-social-link">
+                    <i class="fab fa-instagram tm-social-icon"></i>
+                </a>
+                <a href="https://linkedin.com" class="tm-social-link">
+                    <i class="fab fa-linkedin tm-social-icon"></i>
+                </a>
+            </div>
+            <p class="tm-mb-80 pr-5 text-white">
+                Xtra Blog is a multi-purpose HTML template from TemplateMo website. Left side is a sticky menu bar. Right side content will scroll up and down.
+            </p>
+        </div>
+    </header>
+    <div class="container-fluid">
+        <main class="tm-main">
+            <div class="container">
+                <div class="row tm-row tm-mb-120">
+                    <div class="col-12">
+                        <h2 class="tm-color-primary tm-post-title tm-mb-60">Modifier Announce</h2>
+                    </div>
+                    <div class="col-lg-10 tm-contact-left"> <!-- Utilisation de la classe mx-auto pour centrer le formulaire -->
+                        <form method="POST" action="" class="mb-5 ml-auto mr-0 tm-contact-form">           
+                            {% csrf_token %}   
+                            <div class="form-group row mb-4">
+                                <label for="id" class="col-sm-3 col-form-label text-right tm-color-primary">Id</label>
+                                <div class="col-sm-9">
+                                    <input class="form-control mr-0 ml-auto" name="id" id="id" type="text" value="{{announce.id}}" required readonly>                            
+                                </div>
+                            </div>
+                            <div class="form-group row mb-4">
+                                <label for="statut" class="col-sm-3 col-form-label text-right tm-color-primary">Statut </label>
+                                <div class="col-sm-9">
+                                    <input class="form-control mr-0 ml-auto" name="statut " id="statut " type="text" value="{{announce.status}}" required readonly>                            
+                                </div>
+                            </div>              
+                            <div class="form-group row mb-4">
+                                <label for="titre" class="col-sm-3 col-form-label text-right tm-color-primary">Titre</label>
+                                <div class="col-sm-9">
+                                    <input class="form-control mr-0 ml-auto" name="titre" id="titre" type="text" value="{{announce.titre}}" required>                            
+                                </div>
+                            </div>
+                            <div class="form-group row mb-4">
+                                <label for="categorie_select" class="col-sm-3 col-form-label text-right tm-color-primary">Categorie</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control" name="categorie_select" id="categorie_select" required>
+                                        <option value="{{announce.categorie}}">{{announce.categorie}}</option>
+                                        {% for categorie in categories %}
+                                            {% if categorie != announce.categorie  %}
+                                            <option value={{categorie.nom}}>{{categorie.nom}}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-5">
+                                <label for="contenu" class="col-sm-3 col-form-label text-right tm-color-primary">Contenu</label>
+                                <div class="col-sm-9">
+                                    <textarea class="form-control mr-0 ml-auto" name="contenu" id="contenu" rows="8" required >{{announce.contenu}}</textarea>                                
+                                </div>
+                            </div>
+                            <div class="form-group row text-right">
+                                <div class="col-12">
+                                    <button class="tm-btn tm-btn-primary tm-btn-small">Submit</button>                        
+                                </div>                            
+                            </div>                                
+                        </form>
+                    </div>
+                </div>
+            </div> 
+                 
+            <footer class="row tm-row">
+                <div class="col-md-6 col-12 tm-color-gray">
+                    Design: <a rel="nofollow" target="_parent" href="https://templatemo.com" class="tm-external-link">TemplateMo</a>
+                </div>
+                <div class="col-md-6 col-12 tm-color-gray tm-copyright">
+                    Copyright 2020 Xtra Blog Company Co. Ltd.
+                </div>
+            </footer>
+        </main>
+    </div>
+    <script src="{% static 'js/jquery.min.js'%}"></script>
+    <script src="{% static 'js/templatemo-script.js'%}"></script>
+</body>
+</html>
